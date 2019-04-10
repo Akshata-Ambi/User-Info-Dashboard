@@ -4,7 +4,7 @@ import loginAsync from '../../common/utils/loginAsync';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import store from '../../store';
-import { loginSuccess } from '../../common/session/actions';
+import { loginSuccess } from '../../common/session/action';
 
 class LoginPage extends Component {
     constructor(props) {
@@ -32,11 +32,13 @@ class LoginPage extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        // stopping the loading action once we get the response
         if ((prevProps.loginToken === 'none') &&
             (this.props.loginToken === 'success' || this.props.loginToken === 'invalid')) {
             this.setState({
                 loading: false
             },()=>{
+                // updating error state incase of failed login
                 if(this.props.loginToken === 'invalid'){
                     this.setState({
                         error: 'Login Failed!'
@@ -44,6 +46,7 @@ class LoginPage extends Component {
                 }
             });
         }
+        // clearing error state if user enters correct details second time
         if (prevProps.loginToken === 'invalid' && this.props.loginToken === 'success'){
             this.setState({
                 loading: false,

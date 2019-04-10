@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router';
+import store from '../../store';
 import style from './style.css';
 import Axios from 'axios';
+import { logoutUser } from '../../common/session/action';
 
 class HomePage extends Component {
     constructor(props) {
@@ -19,6 +22,17 @@ class HomePage extends Component {
                 dataFetched: true
             }));
     }
+     
+    logout = () => {
+        const { history: { push } } = this.props;
+        // Removing user data from localStorage
+        localStorage.removeItem('user');
+        // updating redux store
+        store.dispatch(logoutUser());
+        // Redirecting to login page
+        push('/login');
+    }
+
     render() {
         const { userDetails, dataFetched } = this.state;
         const userInfo =  userDetails.map( user => <tr className={style.row} key={user.id}>
@@ -47,10 +61,11 @@ class HomePage extends Component {
                         {userInfo}
                     </tbody>
                 </table>
+                {dataFetched && <button className="btn btn-primary" onClick={this.logout}>Logout</button>}
                 {!dataFetched && <h3 className="text-center my-2">Fetching user details</h3>}
             </div>
         );
     }
 }
 
-export default HomePage;
+export default withRouter(HomePage);

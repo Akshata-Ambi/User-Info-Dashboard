@@ -1,11 +1,10 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL } from "./action";
+import { LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT_USER } from "./action";
 
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-    count: 0,
     isLoggedIn: false,
     loginToken: 'none'
 };
@@ -24,6 +23,14 @@ const loginReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loginToken: action.payload
+            }
+        }
+
+        case LOGOUT_USER : {
+            return {
+                ...state,
+                isLoggedIn: false,
+                loginToken: 'none'
             }
         }
 
