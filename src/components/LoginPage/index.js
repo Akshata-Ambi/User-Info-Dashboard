@@ -3,6 +3,8 @@ import style from './style.css';
 import loginAsync from '../../common/utils/loginAsync';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import store from '../../store';
+import { loginSuccess } from '../../common/session/actions';
 
 class LoginPage extends Component {
     constructor(props) {
@@ -20,8 +22,17 @@ class LoginPage extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount(){
+        let user = JSON.parse(localStorage.getItem('user'));
+        // validating if userdata is available on localStorage
+        if(user && user.login === 'hruday@gmail.com' && user.password === 'hruday123'){
+            //dispatching success action if user is validated
+            store.dispatch(loginSuccess('success'));
+        }
+    }
+
     componentDidUpdate(prevProps) {
-        if ((prevProps.loginToken === 'none' ) &&
+        if ((prevProps.loginToken === 'none') &&
             (this.props.loginToken === 'success' || this.props.loginToken === 'invalid')) {
             this.setState({
                 loading: false
