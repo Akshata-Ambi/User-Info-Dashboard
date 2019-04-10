@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAIL } from "./actions";
+import { LOGIN_SUCCESS, LOGIN_FAIL } from "./action";
 
 
 // ------------------------------------

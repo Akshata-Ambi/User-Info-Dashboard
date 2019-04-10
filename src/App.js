@@ -1,29 +1,26 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import logo from './logo.svg';
-import style from './App.css';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import store from './store';
+import LoginPage from './components/LoginPage';
+import PrivateRoute from './common/route/PrivateRoute';
+import HomePage from './components/HomePage';
 
 class App extends Component {
   render() {
+
     return (
       <Provider store={store}>
-       <div className={style.app}>
-        <header className={style.appHeader}>
-          <img src={logo} className={style.appLogo} alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className={style.appLink}
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <BrowserRouter>
+          <Switch>
+          <Route path="/login" component={LoginPage} />
+          <PrivateRoute
+            path="/home"
+            component={HomePage}
+          />
+          <Redirect from= "/" to="/home"/>
+          </Switch>
+        </BrowserRouter>
       </Provider>
     );
   }
